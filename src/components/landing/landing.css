@@ -1,0 +1,108 @@
+/* Passport Travel UI — landing styles */
+.landing {
+  --bg-paper: #F5F2E9;
+  --text-ink: #2D2D2D;
+  --stamp-red: #B71C1C;
+  --passport-blue: #1A237E;
+  --coral: #C1451F;
+  --paper-white: #FFFFFF;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--bg-paper);
+  color: var(--text-ink);
+  font-family: 'Courier Prime', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* subtle paper grain over everything */
+.landing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(45, 45, 45, 0.05) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+.serif { font-family: 'Lora', Georgia, serif; }
+
+.bg-paper { background-color: var(--bg-paper); }
+.bg-paper-white { background-color: var(--paper-white); }
+.bg-navy { background-color: var(--passport-blue); }
+.bg-coral { background-color: var(--coral); }
+.bg-stamp { background-color: var(--stamp-red); }
+.text-ink { color: var(--text-ink); }
+.text-ink-muted { color: rgba(45, 45, 45, 0.75); }
+.text-stamp { color: var(--stamp-red); }
+.text-navy { color: var(--passport-blue); }
+.text-coral { color: var(--coral); }
+.text-paper { color: var(--paper-white); }
+.border-navy { border-color: var(--passport-blue); }
+.border-stamp { border-color: var(--stamp-red); }
+.soft-border { border: 1px solid rgba(45, 45, 45, 0.12); }
+.dashed-b { border-bottom: 2px dashed rgba(183, 28, 28, 0.35); }
+.dashed-card { border: 1.5px dashed rgba(183, 28, 28, 0.55); }
+
+.btn-ink {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background: var(--coral); color: #ffffff;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+  border-radius: 0.5rem; padding: 0.8rem 1.5rem; font-size: 0.875rem;
+  transition: all 0.2s ease-out;
+}
+.btn-ink:hover { filter: brightness(0.93); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); transform: translateY(-1px); }
+.btn-ink:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border: 1.5px solid var(--passport-blue); color: var(--passport-blue); background: transparent;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+  border-radius: 0.5rem; padding: 0.8rem 1.5rem; font-size: 0.875rem;
+  transition: all 0.2s ease-out;
+}
+.btn-outline:hover { background: rgba(26, 35, 126, 0.07); transform: translateY(-1px); }
+
+.card-shadow { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); }
+
+.stamp-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  border: 2px solid var(--stamp-red); color: var(--stamp-red);
+  border-radius: 4px; padding: 0.45rem 0.9rem;
+  font-weight: 700; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  transform: rotate(-2deg);
+  box-shadow: inset 0 0 0 1px rgba(183, 28, 28, 0.25);
+}
+
+.booklet { background: var(--paper-white); border: 2px solid var(--passport-blue); }
+.booklet-frame {
+  position: absolute; inset: 6px;
+  border: 1px solid rgba(26, 35, 126, 0.35);
+  pointer-events: none;
+}
+
+.visa { background: var(--paper-white); border: 2px solid currentColor; box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08); }
+.tone-red { color: var(--stamp-red); }
+.tone-navy { color: var(--passport-blue); }
+.tone-coral { color: var(--coral); }
+.tone-ink { color: var(--text-ink); }
+
+.postmark {
+  border: 2.5px dashed rgba(183, 28, 28, 0.55);
+  border-radius: 9999px;
+  color: var(--stamp-red);
+}
+
+.barcode {
+  height: 36px;
+  background: repeating-linear-gradient(90deg,
+    var(--text-ink) 0 2px, transparent 2px 5px,
+    var(--text-ink) 5px 6px, transparent 6px 9px,
+    var(--text-ink) 9px 13px, transparent 13px 15px,
+    var(--text-ink) 15px 16px, transparent 16px 19px);
+}
+
+.rise { animation: rise 0.42s ease-out both; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}

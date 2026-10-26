@@ -1,0 +1,17 @@
+{
+  "name": "PackSmart — AI Packing Assistant",
+  "short_name": "PackSmart",
+  "description": "AI-powered packing lists tailored to your destination, weather, and activities.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F2E9",
+  "theme_color": "#F5F2E9",
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/6a99fd8512ce77b9a6c006c6/60ce5e3ca_generated_image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

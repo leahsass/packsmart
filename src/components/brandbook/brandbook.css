@@ -1,0 +1,75 @@
+/* Brand book — playground & swatch styles (palette vars come from landing.css) */
+
+/* Brand book is sentence case — override landing's uppercase styles */
+.brandbook .stamp-badge,
+.brandbook .btn-outline,
+.brandbook .btn-ink,
+.brandbook .pb-btn { text-transform: none; }
+
+.swatch {
+  border: 1px solid rgba(45, 45, 45, 0.12);
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+.swatch:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+
+/* Playground stage */
+.playground-stage {
+  min-height: 200px;
+  background: repeating-conic-gradient(rgba(45, 45, 45, 0.04) 0% 25%, transparent 0% 50%) 0 0 / 16px 16px;
+}
+
+.pb-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-weight: 700; letter-spacing: 0.04em;
+  border-radius: 0.5rem; transition: all 0.2s ease-out; cursor: pointer;
+}
+.pb-btn.sm { padding: 0.45rem 0.9rem; font-size: 0.72rem; }
+.pb-btn.md { padding: 0.8rem 1.5rem; font-size: 0.875rem; }
+.pb-btn.lg { padding: 1rem 2rem; font-size: 1rem; }
+.pb-btn.v-primary { background: var(--coral); color: #ffffff; }
+.pb-btn.v-outline { border: 1.5px solid var(--passport-blue); color: var(--passport-blue); background: transparent; }
+.pb-btn.v-ghost { color: var(--passport-blue); background: transparent; }
+.pb-btn.v-navy { background: var(--passport-blue); color: #ffffff; }
+.pb-btn.force-hover { filter: brightness(0.93); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); transform: translateY(-1px); }
+.pb-btn:disabled { opacity: 0.5; pointer-events: none; }
+
+.pb-input {
+  border: 1.5px solid rgba(45, 45, 45, 0.35); border-radius: 0.5rem;
+  background: var(--paper-white); color: var(--text-ink); width: 100%;
+  transition: all 0.2s ease-out; font-family: inherit;
+}
+.pb-input:focus { outline: none; border-color: var(--passport-blue); box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.12); }
+.pb-input.sm { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+.pb-input.md { padding: 0.7rem 0.9rem; font-size: 0.95rem; }
+.pb-input.lg { padding: 1rem 1.1rem; font-size: 1.05rem; }
+.pb-input.v-dashed { border-style: dashed; border-color: var(--stamp-red); }
+.pb-input:disabled { background: rgba(45, 45, 45, 0.06); cursor: not-allowed; }
+.pb-input.force-hover { border-color: var(--passport-blue); box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.12); }
+
+.pb-seg-sm button { padding: 0.2rem 0.65rem; font-size: 0.7rem; }
+.pb-seg-lg button { padding: 0.5rem 1.2rem; font-size: 0.95rem; }
+
+.pb-seg {
+  display: inline-flex; gap: 2px; padding: 4px;
+  border: 1px solid rgba(45, 45, 45, 0.3); border-radius: 9999px;
+  background: var(--paper-white);
+}
+.pb-seg button { border-radius: 9999px; padding: 0.3rem 0.9rem; font-size: 0.8rem; transition: all 0.2s ease-out; cursor: pointer; }
+.pb-seg button.on { background: var(--passport-blue); color: #ffffff; }
+.pb-seg.v-coral button.on { background: var(--coral); }
+
+.pb-card {
+  background: var(--paper-white); border-radius: 0.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+.pb-card.v-dashed { border: 1.5px dashed rgba(183, 28, 28, 0.55); }
+.pb-card.v-solid { border: 1px solid rgba(45, 45, 45, 0.12); }
+
+/* option chips */
+.chip {
+  border-radius: 9999px; padding: 0.3rem 0.9rem; font-size: 0.78rem;
+  border: 1px solid rgba(45, 45, 45, 0.3); background: var(--paper-white);
+  transition: all 0.15s ease-out; cursor: pointer;
+}
+.chip.on { background: var(--text-ink); color: var(--paper-white); border-color: var(--text-ink); }
+.chip:hover { border-color: var(--text-ink); }

@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@400;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Lora:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 45 9% 94%;
+    --foreground: 0 0% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 18%;
+    --primary: 14 72% 44%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 231 50% 94%;
+    --secondary-foreground: 232 56% 30%;
+    --muted: 45 15% 88%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 70% 95%;
+    --accent-foreground: 0 75% 40%;
+    --passport: 174 35% 90%;
+    --passport-foreground: 174 55% 26%;
+    --destructive: 0 75% 35%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 45 15% 80%;
+    --input: 45 12% 55%;
+    --ring: 14 72% 44%;
+    --chart-1: 17 100% 66%;
+    --chart-2: 232 56% 30%;
+    --chart-3: 0 75% 40%;
+    --chart-4: 174 48% 36%;
+    --chart-5: 45 60% 50%;
+    --radius: 0.5rem;
+    --font-heading: 'Lora', ui-serif, Georgia, serif;
+    --font-body: 'Courier Prime', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-display: 'Lora', ui-serif, Georgia, serif;
+    --font-mono: 'Courier Prime', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sidebar-background: 45 15% 92%;
+    --sidebar-foreground: 0 0% 18%;
+    --sidebar-primary: 17 100% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 45 15% 87%;
+    --sidebar-accent-foreground: 0 0% 18%;
+    --sidebar-border: 45 15% 80%;
+    --sidebar-ring: 17 100% 66%;
+  }
+
+  .dark {
+    --background: 232 38% 9%;
+    --foreground: 45 25% 92%;
+    --card: 232 32% 13%;
+    --card-foreground: 45 25% 92%;
+    --popover: 232 32% 13%;
+    --popover-foreground: 45 25% 92%;
+    --primary: 14 72% 44%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 232 30% 18%;
+    --secondary-foreground: 45 25% 88%;
+    --muted: 232 24% 17%;
+    --muted-foreground: 45 12% 62%;
+    --accent: 0 45% 18%;
+    --accent-foreground: 0 60% 82%;
+    --passport: 174 35% 16%;
+    --passport-foreground: 174 45% 75%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 232 20% 45%;
+    --input: 232 20% 45%;
+    --ring: 14 72% 44%;
+    --chart-1: 17 100% 66%;
+    --chart-2: 231 65% 55%;
+    --chart-3: 0 65% 55%;
+    --chart-4: 174 48% 46%;
+    --chart-5: 45 60% 60%;
+    --sidebar-background: 232 38% 11%;
+    --sidebar-foreground: 45 25% 92%;
+    --sidebar-primary: 17 100% 66%;
+    --sidebar-primary-foreground: 232 40% 10%;
+    --sidebar-accent: 232 24% 17%;
+    --sidebar-accent-foreground: 45 25% 92%;
+    --sidebar-border: 232 20% 22%;
+    --sidebar-ring: 17 100% 66%;
+  }
+}
+
+/* Retro Travel Poster preview theme — enabled by a .retro-theme class on <html> */
+.retro-theme {
+  --background: 43 57% 89%;
+  --foreground: 23 16% 20%;
+  --card: 43 72% 94%;
+  --card-foreground: 23 16% 20%;
+  --popover: 43 72% 94%;
+  --popover-foreground: 23 16% 20%;
+  --primary: 4 51% 44%;
+  --primary-foreground: 43 57% 89%;
+  --secondary: 32 70% 70%;
+  --secondary-foreground: 23 16% 20%;
+  --muted: 42 43% 82%;
+  --muted-foreground: 23 16% 35%;
+  --accent: 32 70% 84%;
+  --accent-foreground: 23 16% 20%;
+  --passport: 149 30% 85%;
+  --passport-foreground: 149 30% 27%;
+  --destructive: 0 60% 38%;
+  --destructive-foreground: 43 57% 89%;
+  --border: 23 16% 65%;
+  --input: 23 16% 45%;
+  --ring: 4 51% 44%;
+  --font-heading: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-body: 'Bitter', Georgia, serif;
+  --font-display: 'Oswald', 'Arial Narrow', sans-serif;
+}
+
+/* Screen-print grain overlay */
+.retro-theme body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: radial-gradient(rgba(62, 47, 38, 0.55) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+/* Vintage poster headings */
+.retro-theme .font-heading,
+.retro-theme .font-display {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+
+  button,
+  nav,
+  [role="button"],
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Lora weight remap: bold renders as semibold, semibold as medium */
+  .font-heading.font-bold,
+  .font-heading.font-extrabold,
+  .font-display.font-bold,
+  .font-display.font-extrabold {
+    font-weight: 600;
+  }
+
+  .font-heading.font-semibold,
+  .font-display.font-semibold {
+    font-weight: 500;
+  }
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

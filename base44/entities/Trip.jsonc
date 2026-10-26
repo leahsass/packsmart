@@ -1,0 +1,138 @@
+{
+  "name": "Trip",
+  "type": "object",
+  "properties": {
+    "destination": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trip_purpose": {
+      "type": "string"
+    },
+    "event_details": {
+      "type": "string"
+    },
+    "bag_type": {
+      "type": "string",
+      "enum": [
+        "carry_on",
+        "suitcase",
+        "bike_case"
+      ],
+      "default": "carry_on"
+    },
+    "laundry": {
+      "type": "boolean",
+      "default": false
+    },
+    "sports_event": {
+      "type": "boolean",
+      "default": false
+    },
+    "traveling_with_bike": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_international": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "packing",
+        "active",
+        "completed"
+      ],
+      "default": "packing"
+    },
+    "weather_summary": {
+      "type": "string"
+    },
+    "weather_high": {
+      "type": "number"
+    },
+    "weather_low": {
+      "type": "number"
+    },
+    "weather_conditions": {
+      "type": "string"
+    },
+    "adapter_type": {
+      "type": "string"
+    },
+    "voltage": {
+      "type": "string"
+    },
+    "time_difference": {
+      "type": "string"
+    },
+    "unpacked": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "destination",
+    "country",
+    "start_date",
+    "end_date"
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

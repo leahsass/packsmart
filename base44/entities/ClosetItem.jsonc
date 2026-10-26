@@ -1,0 +1,94 @@
+{
+  "name": "ClosetItem",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "clothing",
+        "shoes",
+        "accessories"
+      ]
+    },
+    "color": {
+      "type": "string"
+    },
+    "warmth": {
+      "type": "string",
+      "enum": [
+        "light",
+        "medium",
+        "warm",
+        "winter"
+      ]
+    },
+    "formality": {
+      "type": "string",
+      "enum": [
+        "athletic",
+        "casual",
+        "dressy casual",
+        "business casual",
+        "business",
+        "cocktail",
+        "smart",
+        "formal"
+      ]
+    },
+    "photo_uri": {
+      "type": "string"
+    },
+    "favorite": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "category"
+  ],
+  "rls": {
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

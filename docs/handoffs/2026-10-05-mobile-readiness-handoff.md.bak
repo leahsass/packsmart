@@ -1,0 +1,168 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;\f2\fnil\fcharset0 Menlo-Italic;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red255\green255\blue254;\red0\green0\blue0;
+\red0\green0\blue117;\red144\green1\blue18;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c100000;\cssrgb\c100000\c100000\c99608;\cssrgb\c0\c0\c0;
+\cssrgb\c0\c6667\c53333;\cssrgb\c63922\c8235\c8235;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 # PackSmart \'97 Change Log: 2026-10-05 (mobile readiness session)\cf0 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 All changes are additive; no API calls, routing logic, or data handling was altered.\cb1 \
+\cb3 Build verified (\cf5 \strokec5 `vite build`\cf0 \strokec4  exit 0) after every batch.\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 ---\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ## 1. Dark mode, page transitions & lazy loading (App shell)\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `src/App.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Added \cf5 \strokec5 `ThemeProvider`\cf0 \strokec4  from \cf5 \strokec5 `next-themes`\cf0 \strokec4  (\cf5 \strokec5 `attribute="class"`\cf0 \strokec4 , \cf5 \strokec5 `defaultTheme="system"`\cf0 \strokec4 ) around the app \'97 enables dark mode via system preference.\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Wrapped \cf5 \strokec5 `Routes`\cf0 \strokec4  in \cf5 \strokec5 `AnimatePresence mode="wait"`\cf0 \strokec4  + added a \cf5 \strokec5 `PageTransition`\cf0 \strokec4  component (Framer Motion slide-in from right, 0.25s) on every route for a native-app feel.\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Converted all page imports to \cf5 \strokec5 `React.lazy()`\cf0 \strokec4  with a \cf5 \strokec5 `Suspense`\cf0 \strokec4  fallback (\cf5 \strokec5 `PageLoader`\cf0 \strokec4  spinner) \'97 each page is its own chunk.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/index.css`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Added a full \cf5 \strokec5 `.dark`\cf0 \strokec4  token set (all colors, chart, sidebar tokens) mirroring \cf5 \strokec5 `:root`\cf0 \strokec4  in dark values.\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Added utilities: \cf5 \strokec5 `.safe-top`\cf0 \strokec4  / \cf5 \strokec5 `.safe-bottom`\cf0 \strokec4  (\cf5 \strokec5 `env(safe-area-inset-*)`\cf0 \strokec4 ), \cf5 \strokec5 `.no-scrollbar`\cf0 \strokec4 .\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Global: \cf5 \strokec5 `overscroll-behavior: none`\cf0 \strokec4  on \cf5 \strokec5 `html, body`\cf0 \strokec4 ; \cf5 \strokec5 `user-select: none`\cf0 \strokec4  on buttons/nav/\cf6 \strokec6 [role=button]\cf0 \strokec4  for WebView stability.\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Google Fonts import (Plus Jakarta Sans + Inter) at top of file.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `tailwind.config.js`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf5 \strokec5 `darkMode: ["class"]`\cf0 \strokec4  so \cf5 \strokec5 `next-themes`\cf0 \strokec4  class toggling works; sidebar color tokens mapped.\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 2. Bottom tab bar + per-tab navigation stack preservation\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/BottomTabBar.jsx` (created earlier, rewritten this session)\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Two tabs: 
+\f1\b **Trips**
+\f0\b0  (\cf5 \strokec5 `/`\cf0 \strokec4 ) and 
+\f1\b **Settings**
+\f0\b0  (\cf5 \strokec5 `/settings`\cf0 \strokec4 ).\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Replaced \cf5 \strokec5 `NavLink`\cf0 \strokec4  with buttons + \cf5 \strokec5 `useNavigate`\cf0 \strokec4  to support stack restoration.\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 New behavior (per-tab stack preservation):\cb1 \
+\cf2 \cb3 \strokec2   - \cf0 \strokec4 Every visited route is recorded under its owning tab (Settings tab owns \cf5 \strokec5 `/settings*`\cf0 \strokec4 ; the Trips tab owns everything else) \'97 recorded in Layout.\cb1 \
+\cf2 \cb3 \strokec2   - \cf0 \strokec4 Tapping an inactive tab restores that tab's last route (e.g. \cf5 \strokec5 `/trip/:id`\cf0 \strokec4 ).\cb1 \
+\cf2 \cb3 \strokec2   - \cf0 \strokec4 Tapping the 
+\f2\i *active*
+\f0\i0  tab resets it to its root (\cf5 \strokec5 `/`\cf0 \strokec4  or \cf5 \strokec5 `/settings`\cf0 \strokec4 ).\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Adds \cf5 \strokec5 `aria-current="page"`\cf0 \strokec4  on the active tab; same visual styling as before.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/Layout.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Holds \cf5 \strokec5 `tabPaths`\cf0 \strokec4  state: a \cf5 \strokec5 `useEffect`\cf0 \strokec4  on \cf5 \strokec5 `location.pathname`\cf0 \strokec4  records each tab's latest route.\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Passes \cf5 \strokec5 `tabPaths`\cf0 \strokec4  down to \cf5 \strokec5 `BottomTabBar`\cf0 \strokec4 .\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Bottom tab bar integrated under \cf5 \strokec5 `AppNavbar`\cf0 \strokec4 ; main content padded with \cf5 \strokec5 `pb-[calc(5rem+env(safe-area-inset-bottom))]`\cf0 \strokec4 .\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 3. Pull-to-refresh\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/PullToRefresh.jsx` (new)\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Touch-based pull-to-refresh wrapper (80px threshold, spring-back, spinner). Purely additive; wraps children in a plain div.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/pages/Home.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Wrapped page content in \cf5 \strokec5 `<PullToRefresh onRefresh=\{loadTrips\}>`\cf0 \strokec4 ; extracted \cf5 \strokec5 `loadTrips()`\cf0 \strokec4  (same \cf5 \strokec5 `Trip.list("-start_date", 100)`\cf0 \strokec4  call \'97 data handling unchanged).\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/pages/TripDetail.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Wrapped page content in \cf5 \strokec5 `PullToRefresh`\cf0 \strokec4 ; new \cf5 \strokec5 `refresh()`\cf0 \strokec4  reloads both the trip (\cf5 \strokec5 `Trip.get(id)`\cf0 \strokec4 ) and items (\cf5 \strokec5 `loadItems()`\cf0 \strokec4 ), swallowing errors so a failed trip fetch never blanks the page.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/pages/Settings.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Wrapped page content in \cf5 \strokec5 `PullToRefresh`\cf0 \strokec4 ; extracted \cf5 \strokec5 `loadInsights()`\cf0 \strokec4  (same \cf5 \strokec5 `LearnedPreference.list("-created_date", 30)`\cf0 \strokec4  call) and reuse it for refresh.\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 4. Touch-target sizes\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/packing/PackingList.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf5 \strokec5 `SectionHeader`\cf0 \strokec4  add button: \cf5 \strokec5 `h-7 w-7`\cf0 \strokec4  \uc0\u8594  \cf5 \strokec5 `h-9 w-9`\cf0 \strokec4 .\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 "+ Add sports item" text button: added \cf5 \strokec5 `min-h-[36px] py-2`\cf0 \strokec4 .\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/packing/ExtraItemLog.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Remove (X) button: \cf5 \strokec5 `p-1`\cf0 \strokec4  \uc0\u8594  \cf5 \strokec5 `p-2`\cf0 \strokec4  + \cf5 \strokec5 `flex min-h-[36px] min-w-[36px] items-center justify-center`\cf0 \strokec4  so the tap area is \uc0\u8805 36px.\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 5. NewTrip step indicator accessibility\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `src/pages/NewTrip.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Step container: added \cf5 \strokec5 `role="list"`\cf0 \strokec4 .\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Each step label: added \cf5 \strokec5 `role="listitem"`\cf0 \strokec4  and \cf5 \strokec5 `aria-label="Step \{i+1\} of \{STEPS.length\}: \{s\}"`\cf0 \strokec4 .\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 6. Account deletion\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `base44/functions/deleteAccount/entry.ts` (new function)\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Authenticated endpoint: deletes the signed-in user's Trip, PackingItem, UnpackFeedback, and LearnedPreference records (looped \cf5 \strokec5 `deleteMany`\cf0 \strokec4  by \cf5 \strokec5 `created_by_id`\cf0 \strokec4 , batched until \cf5 \strokec5 `has_more`\cf0 \strokec4  is false), then deletes the User record.\cb1 \
+\cf2 \cb3 \strokec2 - 
+\f1\b \cf0 \strokec4 **Important ordering fix found in testing:**
+\f0\b0  the User record is deleted 
+\f2\i *first*
+\f0\i0 ; if that's refused (e.g. the app owner cannot be deleted), the function aborts with 400 
+\f1\b **before touching any data**
+\f0\b0 . (The first version wiped the caller's data before the owner check fired \'97 do not reorder back.)\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/pages/Settings.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 "Delete account" button + \cf5 \strokec5 `AlertDialog`\cf0 \strokec4  confirmation ("permanently deletes\'85 can't be undone") \uc0\u8594  invokes \cf5 \strokec5 `deleteAccount`\cf0 \strokec4 , then \cf5 \strokec5 `logout()`\cf0 \strokec4 . Destructive-styled action, \cf5 \strokec5 `deleting`\cf0 \strokec4  state, error toast on failure.\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 7. Navigation refactor (nested screens)\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 - \cf5 \strokec5 `src/pages/TripDetail.jsx`\cf0 \strokec4 , \cf5 \strokec5 `src/pages/Unpack.jsx`\cf0 \strokec4 , \cf5 \strokec5 `src/pages/NewTrip.jsx`\cf0 \strokec4 : programmatic navigation switched to \cf5 \strokec5 `useNavigate`\cf0 \strokec4  (replacing link-based nav) so back/forward works correctly with the new tab stack.\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 8. Unpack feedback rescoping & extra items (earlier today)\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `base44/entities/UnpackFeedback.jsonc`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Added \cf5 \strokec5 `is_extra`\cf0 \strokec4  (boolean, default false) and \cf5 \strokec5 `extra_reason`\cf0 \strokec4  (enum: \cf5 \strokec5 `forgot_to_pack`\cf0 \strokec4  | \cf5 \strokec5 `bought_for_fun`\cf0 \strokec4  | \cf5 \strokec5 `other`\cf0 \strokec4 ).\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/lib/categories.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Added \cf5 \strokec5 `TRACKED_CATEGORIES`\cf0 \strokec4  (clothing, shoes, accessories, toiletries) \'97 unpack feedback only records these.\cb1 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Trip timing utilities: \cf5 \strokec5 `tripDayNumber()`\cf0 \strokec4 , \cf5 \strokec5 `getTripPhase()`\cf0 \strokec4  (packing / active / return_ready / unpacked), used by TripCard, TripDetail, ActiveTripPanel.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/packing/ExtraItemLog.jsx` (new)\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Log items packed/bought outside the generated list (name + reason), stored as \cf5 \strokec5 `UnpackFeedback`\cf0 \strokec4  with \cf5 \strokec5 `is_extra: true`\cf0 \strokec4 .\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/pages/Unpack.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Only tracked categories appear in the unpack flow; extra-item logging integrated.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/ActiveTripPanel.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Integrated \cf5 \strokec5 `ExtraItemLog`\cf0 \strokec4  so extras can be logged mid-trip.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `src/components/TripCard.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Shows "Day X of Y" badge for active trips.\cb1 \
+\
+\cf2 \cb3 \strokec2 ### `base44/functions/unpackInsights/entry.ts`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 Extra items (\cf5 \strokec5 `is_extra`\cf0 \strokec4 ) are now included in the insight-generation prompt.\cb1 \
+\
+\cf2 \cb3 \strokec2 ## 9. Trip extension override\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ### `src/pages/TripDetail.jsx`\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 - \cf0 \strokec4 "Still traveling? Extend trip" flow on \cf5 \strokec5 `return_ready`\cf0 \strokec4  phase: inline date picker \uc0\u8594  \cf5 \strokec5 `Trip.update(id, \{ end_date \})`\cf0 \strokec4  \'97 covers late returns before unpacking.\cb1 \
+\
+\cf2 \cb3 \strokec2 ---\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ## Files touched (quick list)\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 | File | Change |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |---|---|\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/App.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  ThemeProvider, page transitions, lazy routes \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/index.css`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Dark tokens, safe\cf2 \strokec2 -\cf0 \strokec4 area/overscroll utilities, fonts \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `tailwind.config.js`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `darkMode: ["class"]`\cf0 \strokec4 , sidebar tokens \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `index.html`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `viewport-fit=cover`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/Layout.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Tab bar + per\cf2 \strokec2 -\cf0 \strokec4 tab path tracking \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/BottomTabBar.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  NEW \uc0\u8594  stack preservation \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/PullToRefresh.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  NEW \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/packing/ExtraItemLog.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  NEW \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/ActiveTripPanel.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Extra\cf2 \strokec2 -\cf0 \strokec4 item log integration \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/TripCard.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Day badges, phase logic \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/packing/PackingList.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Tap targets \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/components/packing/AddItemForm.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Drawer for category selection \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/pages/Home.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Pull\cf2 \strokec2 -\cf0 \strokec4 to\cf2 \strokec2 -\cf0 \strokec4 refresh \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/pages/TripDetail.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Pull\cf2 \strokec2 -\cf0 \strokec4 to\cf2 \strokec2 -\cf0 \strokec4 refresh, extend\cf2 \strokec2 -\cf0 \strokec4 trip, useNavigate \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/pages/Unpack.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Tracked categories, extras, useNavigate \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/pages/NewTrip.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Step a11y, useNavigate \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/pages/Settings.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Delete account, pull\cf2 \strokec2 -\cf0 \strokec4 to\cf2 \strokec2 -\cf0 \strokec4 refresh \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `src/lib/categories.jsx`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  TRACKED_CATEGORIES, trip phase utils \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `base44/entities/UnpackFeedback.jsonc`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `is_extra`\cf0 \strokec4 , \cf5 \strokec5 `extra_reason`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `base44/functions/deleteAccount/entry.ts`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  NEW \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 |\cf0 \strokec4  \cf5 \strokec5 `base44/functions/unpackInsights/entry.ts`\cf0 \strokec4  \cf2 \strokec2 |\cf0 \strokec4  Extras in insights \cf2 \strokec2 |\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 ## Test-data note\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 The first \cf5 \strokec5 `deleteAccount`\cf0 \strokec4  test wiped the app owner's trip data (owner check fired too late); the Lisbon test trip (active, Oct 3 \uc0\u8594  Oct 9, 10 packing items, \cf5 \strokec5 `trip_id: 6ac413cb4ffbd1f7259b900f`\cf0 \strokec4 ) was recreated afterwards. If your local DB differs, that's why.\cb1 \
+}
